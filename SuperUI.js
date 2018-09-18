@@ -4,7 +4,7 @@ const document  = window.document,
   location  = window.location
 //objeto con metodos provados
 let private = {
-//identificar el tipo de dato
+//estilos que serán llamados desde ciclo()
   stls:{
     alignContent:function(el, val){el.style.alignContent=val},
     alignItems:function(el, val){el.style.alignItems=val},
@@ -189,12 +189,15 @@ let private = {
     windows:function(el, val){el.style.windows=val},
     zIndex:function(el, val){el.style.zIndex=val},
   },
+  //obtener el tipo de dato
   toType : function(obj) {
     return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
   },
+  //validar el tipo de dato
   validar:function(elemento,dato){
     return private.toType(elemento) == dato
   },
+  //iteracion del elemento y llamada a la funcion
   ciclo : function(el, stl, val){
     const cant = el.length
     for(var i=0;i<cant;i++){
@@ -206,10 +209,15 @@ let private = {
 let SUI = function(el){
 //validación del tipo de dato
   if (!private.validar(el,"string")) {
-    console.log("tiene que ser un string")
+    console.error("El parametro de SUI() debe ser un string")
   }else{
     let elements=document.querySelectorAll(el)
-    let core={
+    function SuperUI(){
+      elements.forEach((element,index)=>{
+        this[index]=element
+      })
+    }
+    SuperUI.prototype ={
       stl:function(stl,val){
         if(private.validar(stl,"string") && val){
           private.ciclo(elements,stl, val)
@@ -217,11 +225,13 @@ let SUI = function(el){
           for(estilo in stl){
             private.ciclo(elements,estilo, stl[estilo])
           }
-        }
-        
+        }else{
+          console.error("Los parametros de stl() solo pueden ser dos strings o un objeto")
+        }    
       }
-    }   
-    return core
+    }
+    let superInst = new SuperUI()
+    return superInst
   }
 }
 window.SUI = SUI
