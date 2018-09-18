@@ -19,4 +19,4 @@ Con el método stl(), se puede enviar dos parametros de tipo string, o uno de ti
   })**
 
 
-La biblioteca está recién nacida y necesita de tu colaboración para llegar al siguiente nivel.
+*La biblioteca está recién nacida y necesita de tu colaboración para llegar al siguiente nivel.*
